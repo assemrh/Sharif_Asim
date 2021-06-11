@@ -28,6 +28,13 @@ namespace Sharif_Asim
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            //Added by Asim
+            services.AddMvc()
+                  .AddRazorOptions(option => {
+                      option.ViewLocationFormats.Add("/Views/Shared/Partials/{0}.cshtml");
+                      option.ViewLocationFormats.Add("/Views/Shared/Layouts/{0}.cshtml");
+                  });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,11 +57,19 @@ namespace Sharif_Asim
 
             app.UseRouting();
 
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller}/{action=Index}/{id?}");
+            //});
+
+            //Added by Asim
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    name: "Admin",
+                    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
