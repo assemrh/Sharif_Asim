@@ -61,7 +61,7 @@ namespace Sharif_Asim
             //{
             //    endpoints.MapControllerRoute(
             //        name: "default",
-            //        pattern: "{controller}/{action=Index}/{id?}");
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
             //});
 
             //Added by Asim
