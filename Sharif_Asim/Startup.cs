@@ -5,22 +5,33 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sharif_Asim.Context;
+using Microsoft.EntityFrameworkCore;
+using Sharif_Asim.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Sharif_Asim
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
             Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath).AddJsonFile("appsettings.json", optional: true, reloadOnChange:true);
+            ConfigurationRoot = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
+        private IConfigurationRoot ConfigurationRoot { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<UserDbContext>(options => options.UseSqlServer(ConfigurationRoot.GetConnectionString("UserDbContext")));
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<UserDbContext>()
+                .AddDefaultTokenProviders();
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -54,6 +65,7 @@ namespace Sharif_Asim
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
             app.UseRouting();
 

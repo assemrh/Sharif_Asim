@@ -1,0 +1,17 @@
+
+Adding Entity Framework Core 5 migrations to .NET 5 project
+-Installing the tools:
+
+	dotnet tool install --global dotnet-ef
+
+-Adding a migration:
+
+	dotnet ef migrations add InitialCreate
+
+-Applying migrations manually
+
+	dotnet ef database update
+
+-Applying migrations automatically
+
+	UpgradeDatabase(app);
