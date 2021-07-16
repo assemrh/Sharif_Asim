@@ -42,6 +42,9 @@ export class NavMenu extends Component {
                 <NavItem>
                     <a className="text-dark nav-link" href='/Admin'>Admin</a>
                 </NavItem>
+                <NavItem>
+                    <a className="text-dark nav-link" href='/Admin/User'>Users</a>
+                </NavItem>
               </ul>
             </Collapse>
           </Container>

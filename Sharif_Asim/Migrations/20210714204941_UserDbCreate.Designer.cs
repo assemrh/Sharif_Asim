@@ -10,7 +10,7 @@ using Sharif_Asim.Context;
 namespace Sharif_Asim.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20210714073417_UserDbCreate")]
+    [Migration("20210714204941_UserDbCreate")]
     partial class UserDbCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,6 +159,9 @@ namespace Sharif_Asim.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("AddressID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

@@ -6,6 +6,7 @@ Adding Entity Framework Core 5 migrations to .NET 5 project
 
 -Adding a migration:
 
+	dotnet ef migrations add UserDbCreate
 	dotnet ef migrations add InitialCreate
 
 -Applying migrations manually
