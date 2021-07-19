@@ -9,6 +9,7 @@ using Sharif_Asim.Context;
 using Microsoft.EntityFrameworkCore;
 using Sharif_Asim.Models;
 using Microsoft.AspNetCore.Identity;
+using Sharif_Asim.Classes;
 
 namespace Sharif_Asim
 {
@@ -29,12 +30,23 @@ namespace Sharif_Asim
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<UserDbContext>(options => options.UseSqlServer(ConfigurationRoot.GetConnectionString("UserDbContext")));
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredUniqueChars = 4;
+                options.Password.RequireNonAlphanumeric = false;
+            })
                 .AddEntityFrameworkStores<UserDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddPasswordValidator<CustomPasswordValidator>()
+                .AddUserValidator<CustomUserValidator>();
             services.AddControllersWithViews();
 
-            // In production, the React files will be served from this directory
+            //In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
@@ -88,8 +100,7 @@ namespace Sharif_Asim
             {
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
+                if (env.IsDevelopment()) {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
