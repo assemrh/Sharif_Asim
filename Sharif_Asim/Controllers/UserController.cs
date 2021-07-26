@@ -11,10 +11,12 @@ namespace Sharif_Asim.Controllers
 {
     public class UserController : Controller
     {
+        private SignInManager<User> _signInManager;
         private UserManager<User> _userManager;
-        public UserController(UserManager<User> userManager)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         [HttpGet]
         public IActionResult Index()
@@ -85,6 +87,26 @@ namespace Sharif_Asim.Controllers
                 }
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(UserDto user)
+        {
+            if(!ModelState.IsValid)
+                return View(user);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, false, false);
+
+            if (result.Succeeded)
+                return RedirectToAction("list");
+            ModelState.AddModelError("", "Yanlış kullancı adı veya şifre girdiniz");
+            
+            return View(user);
+         
         }
     }
 }
